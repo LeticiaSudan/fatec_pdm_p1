@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import ExibeDados from './ExibeDados';
+import Simulacoes from './Simulacoes';
 
 const CapturaDados = () => {
-    const [calcular, setCalcular] = useState(false);
     const [valorInicial, setValorInicial] = useState(0);
     const [aporteMensal, setAporteMensal] = useState(0);
     const [taxaJurosAnual, setTaxaJurosAnual] = useState(0);
@@ -15,7 +15,7 @@ const CapturaDados = () => {
     const [mostrarResultado, setMostrarResultado] = useState(false);
 
     const calcularValores = () => {
-        const i = taxaJurosAnual / 100;
+        const i = taxaJurosAnual / 100 ; 
 
         if (i === 0) {
             const totalInvestidoCalculado =
@@ -46,12 +46,13 @@ const CapturaDados = () => {
         const rentabilidadeCalculada =
             ((valorFinalCalculado - totalInvestidoCalculado) / totalInvestidoCalculado) * 100;
 
-        setValorFinal(valorFinalCalculado | 0);
+        setValorFinal(valorFinalCalculado );
         setTotalInvestido(totalInvestidoCalculado);
-        setJurosAcumulados(jurosAcumuladosCalculados | 0);
+        setJurosAcumulados(jurosAcumuladosCalculados );
         setNAportes(nAportesCalculados);
-        setRentabilidade(rentabilidadeCalculada | 0);
+        setRentabilidade(rentabilidadeCalculada);
     };
+
     return (
         <div className='container p-2 border rounded mt-3' style={{ backgroundColor: '#d5e3f6' }}>
             <div className='row'>
@@ -66,7 +67,7 @@ const CapturaDados = () => {
                 </div>
 
                 <div className='col-sm-12 col-lg-6 col-xxl-6 mt-3'>
-                    <label htmlFor="valorInicial">Taxa de Juros Anual (% ao mês)</label><br></br>
+                    <label htmlFor="valorInicial">Taxa de Juros Anual (% ao ano)</label><br></br>
                     <input className="w-75 rounded p-1" type="text" placeholder="0,00" value={taxaJurosAnual} onChange={(e) => setTaxaJurosAnual(Number(e.target.value))} />
                 </div>
 
@@ -103,7 +104,7 @@ const CapturaDados = () => {
                 </div>
             </div>
 
-            {mostrarResultado && (
+            {mostrarResultado ? (
                 <div className="mt-4">
                     <ExibeDados
                         valorFinal={valorFinal}
@@ -112,8 +113,11 @@ const CapturaDados = () => {
                         nAportes={nAportes}
                         rentabilidade={rentabilidade}
                     />
+                    <Simulacoes 
+                        valorFinal={valorFinal}
+                    />
                 </div>
-            )}
+            ): null}
         </div>
     )
 }

@@ -11,7 +11,6 @@ const App = () => {
           <h3>Histórico de Simulações</h3>
           <h4 className="text-muted mb-3">Descubra quanto seu dinheiro pode render com juros compostos</h4>
           <CapturaDados></CapturaDados>
-          <Simulacoes></Simulacoes>
         </div>
       </div>
     </div>
