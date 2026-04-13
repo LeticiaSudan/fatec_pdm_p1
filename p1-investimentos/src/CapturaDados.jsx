@@ -7,7 +7,6 @@ const CapturaDados = () => {
     const [aporteMensal, setAporteMensal] = useState(0);
     const [taxaJurosAnual, setTaxaJurosAnual] = useState(0);
     const [periodoMeses, setPeriodoMeses] = useState(0);
-
     const [valorFinal, setValorFinal] = useState(0);
     const [totalInvestido, setTotalInvestido] = useState(0);
     const [jurosAcumulados, setJurosAcumulados] = useState(0);
@@ -16,10 +15,25 @@ const CapturaDados = () => {
     const [mostrarResultado, setMostrarResultado] = useState(false);
 
     const calcularValores = () => {
+        const i = taxaJurosAnual / 100;
+
+        if (i === 0) {
+            const totalInvestidoCalculado =
+                valorInicial + (aporteMensal * periodoMeses);
+
+            setValorFinal(totalInvestidoCalculado);
+            setTotalInvestido(totalInvestidoCalculado);
+            setJurosAcumulados(0);
+            setNAportes(periodoMeses);
+            setRentabilidade(0);
+            return;
+        }
+
+        const fator = (1 + i) ** periodoMeses;
+
         const valorFinalCalculado =
-            valorInicial +
-            (aporteMensal * periodoMeses) +
-            (valorInicial * (taxaJurosAnual / 100) * (periodoMeses / 12));
+            valorInicial * fator +
+            aporteMensal * ((fator - 1) / i);
 
         const totalInvestidoCalculado =
             valorInicial + (aporteMensal * periodoMeses);
@@ -30,38 +44,35 @@ const CapturaDados = () => {
         const nAportesCalculados = periodoMeses;
 
         const rentabilidadeCalculada =
-            totalInvestidoCalculado > 0
-                ? (jurosAcumuladosCalculados / totalInvestidoCalculado) * 100
-                : 0;
+            ((valorFinalCalculado - totalInvestidoCalculado) / totalInvestidoCalculado) * 100;
 
-        setValorFinal(valorFinalCalculado);
+        setValorFinal(valorFinalCalculado | 0);
         setTotalInvestido(totalInvestidoCalculado);
-        setJurosAcumulados(jurosAcumuladosCalculados);
+        setJurosAcumulados(jurosAcumuladosCalculados | 0);
         setNAportes(nAportesCalculados);
-        setRentabilidade(rentabilidadeCalculada);
+        setRentabilidade(rentabilidadeCalculada | 0);
     };
-
     return (
         <div className='container p-2 border rounded mt-3' style={{ backgroundColor: '#d5e3f6' }}>
             <div className='row'>
                 <div className='col-sm-12 col-lg-6 col-xxl-6 mt-3'>
                     <label htmlFor="valorInicial">Valor Inicial (R$)</label><br></br>
-                    <input className="w-75 rounded p-1" type="number" placeholder="R$ 0,00" value={valorInicial} onChange={(e) => setValorInicial(Number(e.target.value))} />
+                    <input className="w-75 rounded p-1" type="text" placeholder="R$ 0,00" value={valorInicial} onChange={(e) => setValorInicial(Number(e.target.value))} />
                 </div>
 
                 <div className='col-sm-12 col-lg-6 col-xxl-6 mt-3'>
                     <label htmlFor="valorInicial">Aporte Mensal (R$)</label><br></br>
-                    <input className="w-75 rounded p-1" type="number" placeholder="R$ 0,00" value={aporteMensal} onChange={(e) => setAporteMensal(Number(e.target.value))} />
+                    <input className="w-75 rounded p-1" type="text" placeholder="R$ 0,00" value={aporteMensal} onChange={(e) => setAporteMensal(Number(e.target.value))} />
                 </div>
 
                 <div className='col-sm-12 col-lg-6 col-xxl-6 mt-3'>
                     <label htmlFor="valorInicial">Taxa de Juros Anual (% ao mês)</label><br></br>
-                    <input className="w-75 rounded p-1" type="number" placeholder="0,00" value={taxaJurosAnual} onChange={(e) => setTaxaJurosAnual(Number(e.target.value))} />
+                    <input className="w-75 rounded p-1" type="text" placeholder="0,00" value={taxaJurosAnual} onChange={(e) => setTaxaJurosAnual(Number(e.target.value))} />
                 </div>
 
                 <div className='col-sm-12 col-lg-6 col-xxl-6 mt-3'>
                     <label htmlFor="valorInicial">Período (meses)</label><br></br>
-                    <input className="w-75 rounded p-1" type="number" placeholder="0" value={periodoMeses} onChange={(e) => setPeriodoMeses(Number(e.target.value))} />
+                    <input className="w-75 rounded p-1" type="text" placeholder="0" value={periodoMeses} onChange={(e) => setPeriodoMeses(Number(e.target.value))} />
                 </div>
 
                 <div className='col-sm-12 col-lg-9'>

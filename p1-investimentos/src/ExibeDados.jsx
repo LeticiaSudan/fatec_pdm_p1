@@ -32,7 +32,7 @@ const ExibeDados = ({ valorFinal, totalInvestido, jurosAcumulados, nAportes, ren
 
                 <div className='col-12 col-md-6 col-lg-6 mt-3 mb-3'>
                     <h4>Rentabilidade</h4>
-                    <h4>{rentabilidade}%</h4>
+                    <h4 className='text-success'>+{rentabilidade}%</h4>
                 </div>     
             </div>
         </div>
