@@ -1,6 +1,3 @@
-import CapturaDados from './CapturaDados'
-import React, { useState } from 'react'
-
 const ExibeDados = ({ valorFinal, totalInvestido, jurosAcumulados, nAportes, rentabilidade}) => {
     
     return (
