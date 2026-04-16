@@ -2,26 +2,22 @@ import React, { useState, useEffect } from 'react';
 
 const Simulacoes = ({ valorFinal }) => {
     const [historicoSimulacoes, setHistoricoSimulacoes] = useState([]);
-    let contador = 0;
 
     useEffect(() => {
-        if (valorFinal === undefined || valorFinal === null) return;
+        if (!valorFinal) return;
 
         const novaSimulacao = {
             data: new Date().toLocaleString(),
             valorFinal: valorFinal
         };
 
-        let novoHistorico = historicoSimulacoes.concat(novaSimulacao);
+        let novoHistorico = [];
 
-        if (novoHistorico.length > 4) {
-            novoHistorico = [
-                novoHistorico[1],
-                novoHistorico[2],
-                novoHistorico[3],
-                novoHistorico[4]
-            ];
+        for (let i = 0; i < historicoSimulacoes.length; i++) {
+            novoHistorico[novoHistorico.length] = historicoSimulacoes[i];
         }
+
+        novoHistorico[novoHistorico.length] = novaSimulacao;
 
         setHistoricoSimulacoes(novoHistorico);
 
